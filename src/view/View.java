@@ -1,5 +1,7 @@
 package view;
 
+import model.Employee;
+
 import java.util.Scanner;
 
 public class View {
@@ -18,6 +20,9 @@ public class View {
                             case 1:
                                 break;
                             case 2:
+                                System.out.println("-- Add new employee");
+                                Employee e = new Employee("John", "1-1-1990","male","123","0905000000","a@gmail.com","345", Employee.Degree.COLLEGE, Employee.JobPosition.RECEPTIONIST,100000);
+
                                 break;
                             case 3:
                                 break;

@@ -16,7 +16,7 @@ public interface IEmployeeService extends IService<Employee> {
     public void delete(Employee employee) ;
 
     @Override
-    public void edit(Employee employee);
+    public void update(Employee employee);
 
     @Override
     public Employee get(String employeeId) ;
