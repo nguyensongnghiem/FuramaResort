@@ -10,7 +10,7 @@ public class EmployeeService implements IEmployeeService  {
     EmployeeRepository employeeRepository = new EmployeeRepository();
     @Override
     public ArrayList<Employee> getAll() {
-        return null;
+        return employeeRepository.getAll();
     }
 
     @Override

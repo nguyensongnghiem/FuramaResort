@@ -1,11 +1,14 @@
 package view;
 
+import controller.EmployeeController;
 import model.Employee;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class View {
 
+    private static EmployeeController controller = new EmployeeController();
     private static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
         boolean exitFlag = false;
@@ -18,11 +21,16 @@ public class View {
                         int employeeSelected = displayEmployeeMenu();
                         switch (employeeSelected) {
                             case 1:
+                                System.out.println("-- List of employees");
+                                ArrayList<Employee> list = controller.getAll();
+                                for (Employee e : list) {
+                                    System.out.println(e);
+                                }
                                 break;
                             case 2:
                                 System.out.println("-- Add new employee");
                                 Employee e = new Employee("John", "1-1-1990","male","123","0905000000","a@gmail.com","345", Employee.Degree.COLLEGE, Employee.JobPosition.RECEPTIONIST,100000);
-
+                                controller.add(e);
                                 break;
                             case 3:
                                 break;
@@ -86,6 +94,7 @@ public class View {
                         int promotionSelected = displayPromotionMenu();
                         switch (promotionSelected) {
                             case 1:
+
                                 break;
                             case 2:
                                 break;

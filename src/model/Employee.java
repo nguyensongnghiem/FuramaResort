@@ -23,6 +23,8 @@ public class Employee extends Person {
     public Employee() {
     }
 
+
+
     public Employee(String name, String birthday, String sex, String id, String phoneNumber, String email, String employeeId, Degree degree, JobPosition jobPosition, double salary) {
         super(name, birthday, sex, id, phoneNumber, email);
         this.employeeId = employeeId;
@@ -61,5 +63,30 @@ public class Employee extends Person {
 
     public void setSalary(double salary) {
         this.salary = salary;
+    }
+    @Override
+    public String toCsvLine() {
+        final String CSV_SEPARATOR =";";
+        StringBuilder str = new StringBuilder();
+        str.append(getName());
+        str.append(CSV_SEPARATOR);
+        str.append(getBirthday());
+        str.append(CSV_SEPARATOR);
+        str.append(getSex());
+        str.append(CSV_SEPARATOR);
+        str.append(getCitizenId());
+        str.append(CSV_SEPARATOR);
+        str.append(getPhoneNumber());
+        str.append(CSV_SEPARATOR);
+        str.append(getEmail());
+        str.append(CSV_SEPARATOR);
+        str.append(getEmployeeId());
+        str.append(CSV_SEPARATOR);
+        str.append(getDegree());
+        str.append(CSV_SEPARATOR);
+        str.append(getJobPosition());
+        str.append(CSV_SEPARATOR);
+        str.append(getSalary());
+        return str.toString();
     }
 }

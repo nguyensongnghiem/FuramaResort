@@ -15,6 +15,11 @@ public class Customer extends Person {
     public Customer() {
     }
 
+    @Override
+    public String toCsvLine() {
+        return null;
+    }
+
     public Customer(String name, String birthday, String sex, String citizenId, String phoneNumber, String email, String customerId, CustomerClass customerClass, String address) {
         super(name, birthday, sex, citizenId, phoneNumber, email);
         this.customerId = customerId;

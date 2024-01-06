@@ -9,5 +9,6 @@ public interface IRepository<T> {
     public void delete(T t);
     public void update(T t);
     public T get(String id);
+    public boolean isExist(String id);
 
 }
