@@ -1,8 +1,10 @@
 package model;
 
+import java.time.LocalDate;
+
 public abstract class Person {
     private String name;
-    private String birthday;
+    private LocalDate birthday;
     private String sex;
     private String citizenId;
     private String phoneNumber;
@@ -11,7 +13,7 @@ public abstract class Person {
     public Person() {
     }
 
-    public Person(String name, String birthday, String sex, String citizenId, String phoneNumber, String email) {
+    public Person(String name, LocalDate birthday, String sex, String citizenId, String phoneNumber, String email) {
         this.name = name;
         this.birthday = birthday;
         this.sex = sex;
@@ -28,11 +30,11 @@ public abstract class Person {
         this.name = name;
     }
 
-    public String getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
@@ -67,5 +69,16 @@ public abstract class Person {
     public void setEmail(String email) {
         this.email = email;
     }
-    public abstract String toCsvLine();
+
+//    @Override
+//    public String toString() {
+//        return "Person{" +
+//                "name='" + name + '\'' +
+//                ", birthday='" + birthday + '\'' +
+//                ", sex='" + sex + '\'' +
+//                ", citizenId='" + citizenId + '\'' +
+//                ", phoneNumber='" + phoneNumber + '\'' +
+//                ", email='" + email + '\'' +
+//                '}';
+//    }
 }

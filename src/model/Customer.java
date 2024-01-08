@@ -1,5 +1,8 @@
 package model;
 
+import java.time.LocalDate;
+import java.util.Objects;
+
 public class Customer extends Person {
     public enum CustomerClass {
         DIAMOND,
@@ -15,12 +18,7 @@ public class Customer extends Person {
     public Customer() {
     }
 
-    @Override
-    public String toCsvLine() {
-        return null;
-    }
-
-    public Customer(String name, String birthday, String sex, String citizenId, String phoneNumber, String email, String customerId, CustomerClass customerClass, String address) {
+    public Customer(String name, LocalDate birthday, String sex, String citizenId, String phoneNumber, String email, String customerId, CustomerClass customerClass, String address) {
         super(name, birthday, sex, citizenId, phoneNumber, email);
         this.customerId = customerId;
         this.customerClass = customerClass;
@@ -49,5 +47,27 @@ public class Customer extends Person {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerId='" + customerId + '\'' +
+                ", customerClass=" + customerClass +
+                ", address='" + address + '\'' +
+                "} " + super.toString();
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return Objects.equals(customerId, customer.customerId);
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerId);
     }
 }

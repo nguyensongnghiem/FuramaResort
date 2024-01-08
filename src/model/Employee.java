@@ -1,31 +1,59 @@
 package model;
 
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class Employee extends Person {
-    public enum JobPosition {
+    public enum JobPosition implements Serializable {
+        @SerializedName("RECEPTIONIST")
         RECEPTIONIST,
+        @SerializedName("SERVER")
         SERVER,
+        @SerializedName("SPECIALIST")
         SPECIALIST,
+        @SerializedName("SUPERVISOR")
         SUPERVISOR,
+        @SerializedName("MANAGER")
         MANAGER,
-        DIRECTOR
+        @SerializedName("DIRECTOR")
+        DIRECTOR;
+
+        public String getStatus() {
+            return this.name();
+        }
     }
-    public  enum Degree {
+
+    public enum Degree implements Serializable {
+        @SerializedName("INTERMEDIATE")
         INTERMEDIATE,
+        @SerializedName("COLLEGE")
         COLLEGE,
+        @SerializedName("UNIVERSITY")
         UNIVERSITY,
-        POSTGRADUATE
+        @SerializedName("POSTGRADUATE")
+        POSTGRADUATE;
+
+        public String getStatus() {
+            return this.name();
+        }
     }
+
     private String employeeId;
     private Degree degree;
     private JobPosition jobPosition;
     private double salary;
+
     public Employee() {
     }
 
 
-
-    public Employee(String name, String birthday, String sex, String id, String phoneNumber, String email, String employeeId, Degree degree, JobPosition jobPosition, double salary) {
+    public Employee(String name, LocalDate birthday, String sex, String id, String phoneNumber, String email, String employeeId, Degree degree, JobPosition jobPosition, double salary) {
         super(name, birthday, sex, id, phoneNumber, email);
         this.employeeId = employeeId;
         this.degree = degree;
@@ -64,9 +92,20 @@ public class Employee extends Person {
     public void setSalary(double salary) {
         this.salary = salary;
     }
+
     @Override
+    public String toString() {
+        return "Employee{" +
+                "employeeId='" + employeeId + '\'' +
+                "Name='" + getName() + '\'' +
+                ", degree=" + degree +
+                ", jobPosition=" + jobPosition +
+                ", salary=" + salary +
+                "} ";
+    }
+
     public String toCsvLine() {
-        final String CSV_SEPARATOR =";";
+        final String CSV_SEPARATOR = ";";
         StringBuilder str = new StringBuilder();
         str.append(getName());
         str.append(CSV_SEPARATOR);
@@ -88,5 +127,35 @@ public class Employee extends Person {
         str.append(CSV_SEPARATOR);
         str.append(getSalary());
         return str.toString();
+    }
+
+    public static Employee fromCsvLine(String line) {
+        final String CSV_SEPARATOR = ";";
+        String[] array = line.split(CSV_SEPARATOR);
+        Employee e = new Employee();
+        e.setName(array[0]);
+        e.setBirthday(LocalDate.parse(array[1]));
+        e.setSex(array[2]);
+        e.setCitizenId(array[3]);
+        e.setPhoneNumber(array[4]);
+        e.setEmail(array[5]);
+        e.setEmployeeId(array[6]);
+        e.setDegree(Degree.valueOf(array[7]));
+        e.setJobPosition(JobPosition.valueOf(array[8]));
+        e.setSalary(Double.parseDouble(array[9]));
+        return e;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return Objects.equals(employeeId, employee.employeeId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(employeeId);
     }
 }

@@ -1,35 +1,18 @@
 package utils;
 
 import com.google.gson.Gson;
-import model.Employee;
 
 import java.io.*;
 import java.util.ArrayList;
 
-public class FileIo<T> implements IFileIo<T> {
+public class FileString {
     private final String filePath;
 
 
-    public FileIo(String filePath) {
+    public FileString(String filePath) {
         this.filePath = filePath;
     }
-
-    @Override
-    public void replaceAll(ArrayList<T> list) {
-        File file = new File(filePath);
-        try {
-            PrintWriter printWriter = new PrintWriter(file);
-            printWriter.close();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        for (T t : list) {
-            write(t);
-        }
-    }
-    @Override
-    public void write(T t) {
+    public void write(String line) {
         File file = new File(filePath);
         try {
             if (file.createNewFile()) {
@@ -42,9 +25,6 @@ public class FileIo<T> implements IFileIo<T> {
             throw new RuntimeException(e);
         }
         BufferedWriter bw = null;
-        Gson gson = new Gson();
-        System.out.println(t);
-        String line = gson.toJson(t);
         try {
             bw = new BufferedWriter(new FileWriter(file, true));
             bw.write(line);
@@ -55,19 +35,38 @@ public class FileIo<T> implements IFileIo<T> {
         }
 
     }
-    @Override
-    public ArrayList<T> readAll(Class<T> clazz) {
-        ArrayList<T> result = new ArrayList<>() ;
+    public void writeAll(String list) {
         File file = new File(filePath);
-        Gson gson = new Gson();
+        try {
+            if (file.createNewFile()) {
+                System.out.println("File created !");
+            } else {
+                System.out.println("File already exist !");
+            }
+        } catch (
+                IOException e) {
+            throw new RuntimeException(e);
+        }
+        BufferedWriter bw = null;
+        try {
+            bw = new BufferedWriter(new FileWriter(file));
+            bw.write(list);
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public ArrayList<String> readAll() {
+        ArrayList<String> result = new ArrayList<>() ;
+        File file = new File(filePath);
         if (file.exists()) {
             BufferedReader br = null;
             try {
                 br = new BufferedReader(new FileReader(file));
-                String line = "";
+                String line = null;
                 while ((line = br.readLine()) != null) {
-                    T obj = gson.fromJson(line,clazz);
-                    result.add(obj);
+                    result.add(line);
                 }
                 br.close();
             } catch (IOException e) {

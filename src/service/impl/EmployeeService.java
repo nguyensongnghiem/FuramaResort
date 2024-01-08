@@ -7,6 +7,7 @@ import service.IEmployeeService;
 import java.util.ArrayList;
 
 public class EmployeeService implements IEmployeeService  {
+
     EmployeeRepository employeeRepository = new EmployeeRepository();
     @Override
     public ArrayList<Employee> getAll() {
@@ -14,18 +15,18 @@ public class EmployeeService implements IEmployeeService  {
     }
 
     @Override
-    public void add(Employee employee) {
-        employeeRepository.add(employee);
+    public String add(Employee employee) {
+       return  employeeRepository.add(employee);
     }
 
     @Override
-    public void delete(Employee employee) {
-
+    public String delete(String employeeId) {
+       return employeeRepository.delete(employeeId);
     }
 
     @Override
-    public void update(Employee employee) {
-
+    public String update(Employee employee) {
+        return employeeRepository.update(employee);
     }
 
     @Override

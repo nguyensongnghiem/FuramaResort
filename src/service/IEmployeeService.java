@@ -10,13 +10,14 @@ public interface IEmployeeService extends IService<Employee> {
     public ArrayList<Employee> getAll();
 
     @Override
-    public void add(Employee employee) ;
+    public String add(Employee employee) ;
+
 
     @Override
-    public void delete(Employee employee) ;
+    public String delete(String employeeId) ;
 
     @Override
-    public void update(Employee employee);
+    public String update(Employee employee);
 
     @Override
     public Employee get(String employeeId) ;
