@@ -24,6 +24,11 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
+    public boolean isExisted(String id) {
+        return false;
+    }
+
+    @Override
     public String update(Customer customer) {
         return null;
     }

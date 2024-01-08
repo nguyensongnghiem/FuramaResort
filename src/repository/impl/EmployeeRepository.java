@@ -15,7 +15,9 @@ public class EmployeeRepository implements IEmployeeRepository {
         FileString fileString = new FileString(filePath);
         ArrayList<String> list = fileString.readAll();
         for (String line : list) {
+            if (!line.isEmpty()) {
             result.add(Employee.fromCsvLine(line));
+            }
         }
         return result;
     }
@@ -61,6 +63,7 @@ public class EmployeeRepository implements IEmployeeRepository {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).equals(employee)) {
                 list.set(i, employee);
+                replaceAll(list);
                 result = "Update successfull !";
                 break;
             }

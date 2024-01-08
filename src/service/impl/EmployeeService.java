@@ -31,6 +31,12 @@ public class EmployeeService implements IEmployeeService  {
 
     @Override
     public Employee get(String employeeId) {
-        return null;
+        return employeeRepository.get(employeeId);
+
+    }
+
+    @Override
+    public boolean isExisted(String id) {
+        return get(id)!=null;
     }
 }

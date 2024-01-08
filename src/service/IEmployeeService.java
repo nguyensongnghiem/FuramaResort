@@ -21,4 +21,7 @@ public interface IEmployeeService extends IService<Employee> {
 
     @Override
     public Employee get(String employeeId) ;
+
+    @Override
+    public boolean isExisted(String id) ;
 }

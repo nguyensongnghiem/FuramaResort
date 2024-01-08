@@ -8,6 +8,7 @@ public interface IService<T> {
     public String delete(String id);
     public String update(T t);
     public T get(String id);
+    public boolean isExisted (String id);
 
 
 }

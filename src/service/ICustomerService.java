@@ -15,6 +15,9 @@ public interface ICustomerService  extends IService<Customer> {
     public String delete(String id) ;
 
     @Override
+    public boolean isExisted(String id);
+
+    @Override
     public String update(Customer customer);
 
     @Override

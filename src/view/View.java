@@ -2,7 +2,6 @@ package view;
 
 import controller.EmployeeController;
 import model.Employee;
-import model.Person;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -32,23 +31,27 @@ public class View {
                                 break;
                             case "2": // add new
                                 System.out.println("--- Add new employee ---");
-                                Employee newEmployee = inputEmployeeInfo();
+                                Employee newEmployee = inputNewEmployee();
                                 System.out.println(controller.add(newEmployee));
                                 break;
                             case "3": // update
                                 System.out.println("--- Update  employee ---");
                                 System.out.print("Enter Employee Id :");
-                                String employeeId = scanner.nextLine();
-                                if (controller.get(employeeId)!=null) {
-                                    Employee updateEmployee = inputEmployeeInfo();
-                                    System.out.println(controller.update(updateEmployee));
+                                String updateId = scanner.nextLine();
+                                Employee updateEmployee = controller.get(updateId);
+                                if (updateEmployee!=null) {
+                                    Employee changedEmployee = inputEmployeeUpdate(updateEmployee);
+                                    System.out.println(changedEmployee);
+                                    System.out.println(controller.update(changedEmployee));
+                                } else  {
+                                    System.out.println("EmployeeId does not exist !");
                                 }
                                 break;
                             case "4": // delete
                                 System.out.println("--- Delete employee ---");
                                 System.out.print("Enter Employee Id to delete :");
-                                String employeeId = scanner.nextLine();
-                                controller.delete(employeeId);
+                                String deleteId = scanner.nextLine();
+                                System.out.println(controller.delete(deleteId));
                                 break;
                             case "5": // return to Main menu
                                 returnMain = true;
@@ -265,7 +268,7 @@ public class View {
         return input;
     }
 
-    public static Employee inputEmployeeInfo() {
+    public static Employee inputNewEmployee() {
         System.out.println("---- Input Employee Info ---- ");
         System.out.print("Enter name : ");
         String name = scanner.nextLine();
@@ -288,6 +291,28 @@ public class View {
         System.out.print("Enter salary : ");
         double salary = Double.parseDouble(scanner.nextLine());
         return new Employee(name, birthday, sex, citizenId, phoneNumber, email,employeeId, degree, position,salary);
+    }
+    public static Employee inputEmployeeUpdate(Employee employee) {
+        System.out.println("---- Update Employee: "+ employee.getEmployeeId() + " Info ---- ");
+        System.out.print("Enter new name ("+ employee.getName() +") : ");
+        String name = scanner.nextLine();
+        System.out.print("Enter new birthday (yyyy-mm-dd) ("+ employee.getBirthday() + "): ");
+        LocalDate birthday = LocalDate.parse(scanner.nextLine());
+        System.out.print("Enter new sex (male/female) ("+ employee.getSex() + "): ");
+        String sex = scanner.nextLine();
+        System.out.print("Enter new citizenId ("+ employee.getCitizenId() + ") : ");
+        String citizenId = scanner.nextLine();
+        System.out.print("Enter phone number ("+ employee.getPhoneNumber() + ") : ");
+        String phoneNumber = scanner.nextLine();
+        System.out.print("Enter email ("+ employee.getEmail() + "): ");
+        String email = scanner.nextLine();
+        System.out.print("Enter degree ("+ employee.getDegree() + "): ");
+        Employee.Degree degree = Employee.Degree.valueOf(scanner.nextLine().toUpperCase());
+        System.out.print("Enter job position ("+ employee.getJobPosition() + ") : ");
+        Employee.JobPosition position = Employee.JobPosition.valueOf(scanner.nextLine().toUpperCase());
+        System.out.print("Enter salary ("+ employee.getSalary() + "): ");
+        double salary = Double.parseDouble(scanner.nextLine());
+        return new Employee(name, birthday, sex, citizenId, phoneNumber, email,employee.getEmployeeId(), degree, position,salary);
     }
 
 //    public static Person inputPersonInfo() {
