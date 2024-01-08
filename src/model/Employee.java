@@ -11,7 +11,6 @@ import java.util.Objects;
 
 public class Employee extends Person {
     public enum JobPosition implements Serializable {
-        @SerializedName("RECEPTIONIST")
         RECEPTIONIST,
         @SerializedName("SERVER")
         SERVER,

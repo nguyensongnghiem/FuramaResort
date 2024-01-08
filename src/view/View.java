@@ -17,105 +17,112 @@ public class View {
         boolean exitFlag = false;
         boolean returnMain = false;
         do {
-            int mainSelected = displayMainMenu();
+            String mainSelected = displayMainMenu();
             switch (mainSelected) {
-                case 1:
+                case "1":
                     do {
-                        int employeeSelected = displayEmployeeMenu();
+                        String employeeSelected = displayEmployeeMenu();
                         switch (employeeSelected) {
-                            case 1:  // list all
+                            case "1":  // list all
                                 System.out.println("-- List of employees ---");
                                 ArrayList<Employee> list = controller.getAll();
                                 for (Employee e : list) {
                                     System.out.println(e);
                                 }
                                 break;
-                            case 2: // add new
+                            case "2": // add new
                                 System.out.println("--- Add new employee ---");
-                                Employee e = inputEmployeeInfo();
-                                controller.add(e);
+                                Employee newEmployee = inputEmployeeInfo();
+                                System.out.println(controller.add(newEmployee));
                                 break;
-                            case 3: // update
+                            case "3": // update
+                                System.out.println("--- Update  employee ---");
+                                System.out.print("Enter Employee Id :");
+                                String employeeId = scanner.nextLine();
+                                if (controller.get(employeeId)!=null) {
+                                    Employee updateEmployee = inputEmployeeInfo();
+                                    System.out.println(controller.update(updateEmployee));
+                                }
                                 break;
-                            case 4: // delete
+                            case "4": // delete
                                 System.out.println("--- Delete employee ---");
                                 System.out.print("Enter Employee Id to delete :");
                                 String employeeId = scanner.nextLine();
                                 controller.delete(employeeId);
                                 break;
-                            case 5:
+                            case "5": // return to Main menu
                                 returnMain = true;
                                 break;
                         }
                     } while (!returnMain);
                     break;
-                case 2:
+                case "2":
                     do {
-                        int customerSelected = displayCustomerMenu();
+                        String customerSelected = displayCustomerMenu();
                         switch (customerSelected) {
-                            case 1:
+                            case "1":
                                 break;
-                            case 2:
+                            case "2":
                                 break;
-                            case 3:
+                            case "3":
                                 break;
-                            case 4:
+                            case "4":
                                 returnMain = true;
                                 break;
                         }
                     } while (!returnMain);
                     break;
-                case 3:
+                case "3":
 
                     do {
-                        int facilitySelected = displayFactilityMenu();
+                        String facilitySelected = displayFactilityMenu();
                         switch (facilitySelected) {
-                            case 1:
+                            case "1":
                                 break;
-                            case 2:
+                            case "2":
                                 break;
-                            case 3:
+                            case "3":
                                 break;
-                            case 4:
+                            case "4":
                                 returnMain = true;
                                 break;
                         }
                     } while (!returnMain);
                     break;
-                case 4:
+                case "4":
                     do {
-                        int bookingSelected = displayBookingMenu();
+                        String bookingSelected = displayBookingMenu();
                         switch (bookingSelected) {
-                            case 1:
+                            case "1":
                                 break;
-                            case 2:
+                            case "2":
                                 break;
-                            case 3:
+                            case "3":
                                 break;
-                            case 4:
+                            case "4":
                                 returnMain = true;
                                 break;
                         }
                     } while (!returnMain);
                     break;
-                case 5:
+                case "5":
                     do {
-                        int promotionSelected = displayPromotionMenu();
+                        String promotionSelected = displayPromotionMenu();
                         switch (promotionSelected) {
-                            case 1:
+                            case "1":
 
                                 break;
-                            case 2:
+                            case "2":
                                 break;
-                            case 3:
+                            case "3":
                                 break;
-                            case 4:
+                            case "4":
                                 returnMain = true;
                                 break;
                         }
                     } while (!returnMain);
                     break;
-                case 6:
+                case "6":
                     exitFlag = true;
                     break;
             }
@@ -123,7 +130,7 @@ public class View {
 
     }
 
-    public static int displayMainMenu() {
+    public static String displayMainMenu() {
         System.out.println("-----------------------");
         System.out.println("FURAMA MANAGEMENT ");
         System.out.println("1. Employee Management");
@@ -133,33 +140,44 @@ public class View {
         System.out.println("5. Promotion Management");
         System.out.println("6. Exit");
         System.out.println("-----------------------");
-        try {
         System.out.print("Select Management module : ");
-        int select = Integer.parseInt(scanner.nextLine());
+        String input;
+        do {
+            input = scanner.nextLine();
+            if (input.matches("[123456]")) {
+                break;
+            } else {
+                System.out.println("Invalid !");
+            }
+        } while (true);
 
-        }
-        catch (
-                
-
-        )
-        return select;
+        return input;
     }
 
-    public static int displayEmployeeMenu() {
+    public static String displayEmployeeMenu() {
         System.out.println("-----------------------");
         System.out.println("EMPLOYEE MANAGEMENT ");
         System.out.println("1. Display list employees");
         System.out.println("2. Add new employee");
         System.out.println("3. Edit employee");
-        System.out.println("4. Delte employee");
+        System.out.println("4. Delete employee");
         System.out.println("5. Return main menu");
         System.out.println("-----------------------");
-        System.out.print("Select : ");
-        int select = Integer.parseInt(scanner.nextLine());
-        return select;
+        System.out.print("Select task : ");
+        String input;
+        do {
+            input = scanner.nextLine();
+            if (input.matches("[12345]")) {
+                break;
+            } else {
+                System.out.println("Invalid !");
+            }
+        } while (true);
+
+        return input;
     }
 
-    public static int displayCustomerMenu() {
+    public static String displayCustomerMenu() {
         System.out.println("-----------------------");
         System.out.println("CUSTOMER MANAGEMENT ");
         System.out.println("1. Display list customer");
@@ -167,12 +185,21 @@ public class View {
         System.out.println("3. Edit customer");
         System.out.println("4. Return main menu");
         System.out.println("-----------------------");
-        System.out.print("Select : ");
-        int select = Integer.parseInt(scanner.nextLine());
-        return select;
+        System.out.print("Select task : ");
+        String input;
+        do {
+            input = scanner.nextLine();
+            if (input.matches("[1234]")) {
+                break;
+            } else {
+                System.out.println("Invalid !");
+            }
+        } while (true);
+
+        return input;
     }
 
-    public static int displayFactilityMenu() {
+    public static String displayFactilityMenu() {
         System.out.println("-----------------------");
         System.out.println("FACTILITY MANAGEMENT ");
         System.out.println("1. Display list facility");
@@ -180,12 +207,21 @@ public class View {
         System.out.println("3. Display list facility maintenance");
         System.out.println("4. Return main menu");
         System.out.println("-----------------------");
-        System.out.print("Select : ");
-        int select = Integer.parseInt(scanner.nextLine());
-        return select;
+        System.out.print("Select task : ");
+        String input;
+        do {
+            input = scanner.nextLine();
+            if (input.matches("[1234]")) {
+                break;
+            } else {
+                System.out.println("Invalid !");
+            }
+        } while (true);
+
+        return input;
     }
 
-    public static int displayBookingMenu() {
+    public static String displayBookingMenu() {
         System.out.println("-----------------------");
         System.out.println("BOOKING MANAGEMENT ");
         System.out.println("1. Add new booking");
@@ -195,21 +231,38 @@ public class View {
         System.out.println("5. Edit contracts");
         System.out.println("6. Return main menu");
         System.out.println("-----------------------");
-        System.out.print("Select : ");
-        int select = Integer.parseInt(scanner.nextLine());
-        return select;
+        System.out.print("Select task : ");
+        String input;
+        do {
+            input = scanner.nextLine();
+            if (input.matches("[123456]")) {
+                break;
+            } else {
+                System.out.println("Invalid !");
+            }
+        } while (true);
+
+        return input;
     }
 
-    public static int displayPromotionMenu() {
+    public static String displayPromotionMenu() {
         System.out.println("-----------------------");
         System.out.println("PROMOTION MANAGEMENT ");
         System.out.println("1. Display list customers use service");
         System.out.println("2. Display list customers get voucher");
         System.out.println("3. Return main menu");
         System.out.println("-----------------------");
-        System.out.print("Select : ");
-        int select = Integer.parseInt(scanner.nextLine());
-        return select;
+        System.out.print("Select task: ");
+        String input;
+        do {
+            input = scanner.nextLine();
+            if (input.matches("[123]")) {
+                break;
+            } else {
+                System.out.println("Invalid !");
+            }
+        } while (true);
+        return input;
     }
 
     public static Employee inputEmployeeInfo() {

@@ -5,7 +5,7 @@ import service.ICustomerService;
 
 import java.util.ArrayList;
 
-public class CustomerService implements ICustomerService  {
+public class CustomerService implements ICustomerService {
 
     @Override
     public ArrayList<Customer> getAll() {

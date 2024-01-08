@@ -5,13 +5,14 @@ import com.google.gson.Gson;
 import java.io.*;
 import java.util.ArrayList;
 
-public class FileString {
+public class FileString implements IFileString {
     private final String filePath;
 
 
     public FileString(String filePath) {
         this.filePath = filePath;
     }
+    @Override
     public void write(String line) {
         File file = new File(filePath);
         try {
@@ -35,6 +36,7 @@ public class FileString {
         }
 
     }
+    @Override
     public void writeAll(String list) {
         File file = new File(filePath);
         try {
@@ -57,6 +59,7 @@ public class FileString {
         }
 
     }
+    @Override
     public ArrayList<String> readAll() {
         ArrayList<String> result = new ArrayList<>() ;
         File file = new File(filePath);

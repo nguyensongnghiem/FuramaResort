@@ -6,7 +6,7 @@ public abstract class Person {
     private String name;
     private LocalDate birthday;
     private String sex;
-    private String citizenId;
+    protected String citizenId;
     private String phoneNumber;
     private String email;
 

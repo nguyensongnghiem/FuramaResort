@@ -36,9 +36,9 @@ public class EmployeeRepository implements IEmployeeRepository {
             FileString fileString = new FileString(filePath);
             fileString.write(employee.toCsvLine());
             return "Added successfull !";
-        } else
-        return "Employee already exist !";
-
+        } else {
+            return "Employee already exist !";
+        }
     }
 
     @Override
@@ -56,14 +56,16 @@ public class EmployeeRepository implements IEmployeeRepository {
 
     @Override
     public String update(Employee employee) {
+        String result = "Update failed ! Employee not found !";
         ArrayList<Employee> list = getAll();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).equals(employee)) {
                 list.set(i, employee);
+                result = "Update successfull !";
                 break;
             }
         }
-        return null;
+        return result;
     }
 
     @Override

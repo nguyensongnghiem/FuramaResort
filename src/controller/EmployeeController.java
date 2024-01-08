@@ -20,4 +20,5 @@ public class EmployeeController {
     public String update(Employee employee) {
         return employeeService.update(employee);
     }
+    public Employee get(String employeeId) {return employeeService.get(employeeId);}
 }
