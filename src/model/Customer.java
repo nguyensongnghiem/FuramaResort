@@ -11,12 +11,14 @@ public class Customer extends Person {
         SILVER,
         MEMBER
     }
+
     private String customerId;
     private CustomerClass customerClass;
     private String address;
 
     public Customer() {
     }
+
 
     public Customer(String name, LocalDate birthday, String sex, String citizenId, String phoneNumber, String email, String customerId, CustomerClass customerClass, String address) {
         super(name, birthday, sex, citizenId, phoneNumber, email);
@@ -55,8 +57,38 @@ public class Customer extends Person {
                 "customerId='" + customerId + '\'' +
                 ", customerClass=" + customerClass +
                 ", address='" + address + '\'' +
-                "} " + super.toString();
+                ", citizenId='" + citizenId + '\'' +
+                '}';
     }
+
+    @Override
+    public String getId() {
+        return getCustomerId();
+    }
+    @Override
+    public String toCsvLine() {
+        final String CSV_SEPARATOR = ";";
+        StringBuilder str = new StringBuilder();
+        str.append(getName());
+        str.append(CSV_SEPARATOR);
+        str.append(getBirthday());
+        str.append(CSV_SEPARATOR);
+        str.append(getSex());
+        str.append(CSV_SEPARATOR);
+        str.append(getCitizenId());
+        str.append(CSV_SEPARATOR);
+        str.append(getPhoneNumber());
+        str.append(CSV_SEPARATOR);
+        str.append(getEmail());
+        str.append(CSV_SEPARATOR);
+        str.append(getCustomerId());
+        str.append(CSV_SEPARATOR);
+        str.append(getCustomerClass());
+        str.append(CSV_SEPARATOR);
+        str.append(getAddress());
+        return str.toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

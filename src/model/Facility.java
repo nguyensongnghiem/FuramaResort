@@ -76,5 +76,15 @@ public abstract class Facility {
         this.rentalType = rentalType;
     }
 
-
+    @Override
+    public String toString() {
+        return "Facility{" +
+                "serviceId='" + serviceId + '\'' +
+                ", serviceName='" + serviceName + '\'' +
+                ", roomArea=" + roomArea +
+                ", price=" + price +
+                ", numberOfStaying=" + numberOfStaying +
+                ", rentalType=" + rentalType +
+                '}';
     }
+}

@@ -1,7 +1,22 @@
 package view;
 
-import controller.EmployeeController;
+import controller.FacilityController;
+import controller.PersonController;
+import model.Customer;
 import model.Employee;
+import model.Facility;
+import model.Person;
+import model.imp.CustomerFactory;
+import model.imp.EmployeeFactory;
+import repository.impl.FacilityRepository;
+import repository.impl.PersonRepository;
+import service.impl.FacilityService;
+import service.impl.PersonService;
+import utils.Validate;
+import utils.myexception.InvalidDate;
+import utils.myexception.InvalidEmail;
+import utils.myexception.InvalidPhone;
+import utils.myexception.InvalidSalary;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,7 +24,12 @@ import java.util.Scanner;
 
 public class View {
 
-    private static EmployeeController controller = new EmployeeController();
+    private static PersonService employeeService = new PersonService(new PersonRepository("src/data/employees.csv", new EmployeeFactory()));
+    private static PersonController employeeController = new PersonController(employeeService);
+    private static PersonService customerService = new PersonService(new PersonRepository("src/data/customers.csv", new CustomerFactory()));
+    private static PersonController customerController = new PersonController(customerService);
+    private static FacilityService facilityService = new FacilityService(new FacilityRepository());
+    private static FacilityController facilityController = new FacilityController(facilityService);
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -24,26 +44,26 @@ public class View {
                         switch (employeeSelected) {
                             case "1":  // list all
                                 System.out.println("-- List of employees ---");
-                                ArrayList<Employee> list = controller.getAll();
-                                for (Employee e : list) {
-                                    System.out.println(e);
+                                ArrayList<Person> list = employeeController.getAll();
+                                for (Person employee : list) {
+                                    System.out.println(employee);
                                 }
                                 break;
                             case "2": // add new
                                 System.out.println("--- Add new employee ---");
                                 Employee newEmployee = inputNewEmployee();
-                                System.out.println(controller.add(newEmployee));
+                                System.out.println(employeeController.add(newEmployee));
                                 break;
                             case "3": // update
                                 System.out.println("--- Update  employee ---");
                                 System.out.print("Enter Employee Id :");
                                 String updateId = scanner.nextLine();
-                                Employee updateEmployee = controller.get(updateId);
-                                if (updateEmployee!=null) {
-                                    Employee changedEmployee = inputEmployeeUpdate(updateEmployee);
+                                Employee updateEmployee = (Employee) employeeController.get(updateId);
+                                if (updateEmployee != null) {
+                                    Person changedEmployee = inputEmployeeUpdate(updateEmployee);
                                     System.out.println(changedEmployee);
-                                    System.out.println(controller.update(changedEmployee));
-                                } else  {
+                                    System.out.println(employeeController.update(changedEmployee));
+                                } else {
                                     System.out.println("EmployeeId does not exist !");
                                 }
                                 break;
@@ -51,7 +71,7 @@ public class View {
                                 System.out.println("--- Delete employee ---");
                                 System.out.print("Enter Employee Id to delete :");
                                 String deleteId = scanner.nextLine();
-                                System.out.println(controller.delete(deleteId));
+                                System.out.println(employeeController.delete(deleteId));
                                 break;
                             case "5": // return to Main menu
                                 returnMain = true;
@@ -63,11 +83,31 @@ public class View {
                     do {
                         String customerSelected = displayCustomerMenu();
                         switch (customerSelected) {
-                            case "1":
+                            case "1": //display
+                                System.out.println("-- List of customer ---");
+                                ArrayList<Person> list = customerController.getAll();
+                                for (Person customer : list) {
+                                    System.out.println(customer);
+                                }
                                 break;
-                            case "2":
+
+                            case "2": //add
+                                System.out.println("--- Add new customer ---");
+                                Customer newCustomer = inputNewCustomer();
+                                System.out.println(customerController.add(newCustomer));
                                 break;
-                            case "3":
+                            case "3": //edit
+                                System.out.println("--- Update  customer ---");
+                                System.out.print("Enter customer Id :");
+                                String updateId = scanner.nextLine();
+                                Customer updateCustomer = (Customer) customerController.get(updateId);
+                                if (updateCustomer != null) {
+                                    Person changedCustomer = inputCustomerUpdate(updateCustomer);
+                                    System.out.println(changedCustomer);
+                                    System.out.println(customerController.update(changedCustomer));
+                                } else {
+                                    System.out.println("Customer Id does not exist !");
+                                }
                                 break;
                             case "4":
                                 returnMain = true;
@@ -80,11 +120,21 @@ public class View {
                     do {
                         String facilitySelected = displayFactilityMenu();
                         switch (facilitySelected) {
-                            case "1":
+                            case "1": // Hiển thi tất cả
+                                System.out.println("-- List of Facility ---");
+                                ArrayList<Facility> facilityList = facilityController.getAll();
+                                for (Facility facility : facilityList) {
+                                    System.out.println(facility);
+                                }
                                 break;
-                            case "2":
+                            case "2": // add
                                 break;
                             case "3":
+                                System.out.println("-- List of Facility need to maintain ---");
+                                ArrayList<Facility> maintainedFacilityList = facilityController.getAllNeedMaintain();
+                                for (Facility facility : maintainedFacilityList) {
+                                    System.out.println(facility);
+                                }
                                 break;
                             case "4":
                                 returnMain = true;
@@ -273,6 +323,96 @@ public class View {
         System.out.print("Enter name : ");
         String name = scanner.nextLine();
         System.out.print("Enter birthday (yyyy-mm-dd) : ");
+        String bd = null;
+        do {
+            bd = scanner.nextLine();
+            try {
+                Validate.validateDate(bd);
+                break;
+            } catch (InvalidDate e) {
+                System.out.println(e.getMessage());
+            }
+        } while (true);
+        LocalDate birthday = LocalDate.parse(bd);
+        System.out.print("Enter sex (male/female) : ");
+        String sex = scanner.nextLine();
+        System.out.print("Enter citizenId : ");
+        String citizenId = scanner.nextLine();
+
+        System.out.print("Enter phone number : ");
+        String phoneNumber = null;
+        do {
+            phoneNumber = scanner.nextLine();
+            try {
+                Validate.validatePhone(phoneNumber);
+                break;
+            } catch (InvalidPhone e) {
+                System.out.println(e.getMessage());
+            }
+        } while (true);
+
+        System.out.print("Enter email : ");
+        String email;
+        do {
+            email = scanner.nextLine();
+            try {
+                Validate.validateEmail(email);
+                break;
+            } catch (InvalidEmail e) {
+                System.out.println(e.getMessage());
+            }
+        } while (true);
+        System.out.print("Enter employeeId : ");
+        String employeeId = scanner.nextLine();
+        System.out.print("Enter degree : ");
+        Employee.Degree degree = Employee.Degree.valueOf(scanner.nextLine().toUpperCase());
+        System.out.print("Enter job position : ");
+        Employee.JobPosition position = Employee.JobPosition.valueOf(scanner.nextLine().toUpperCase());
+        System.out.print("Enter salary : ");
+        double salary = 0;
+        do {
+            while (!scanner.hasNextDouble()) {
+                System.out.println("Không phải số !");
+                scanner.next();
+            }
+                salary = scanner.nextDouble();
+            try {
+                Validate.validateSalary(salary);
+                break;
+            } catch (InvalidSalary e) {
+                System.out.println(e.getMessage());
+            }
+        } while (true);
+        return new Employee(name, birthday, sex, citizenId, phoneNumber, email, employeeId, degree, position, salary);
+    }
+
+    public static Employee inputEmployeeUpdate(Employee employee) {
+        System.out.println("---- Update Employee: " + employee.getEmployeeId() + " Info ---- ");
+        System.out.print("Enter new name (" + employee.getName() + ") : ");
+        String name = scanner.nextLine();
+        System.out.print("Enter new birthday (yyyy-mm-dd) (" + employee.getBirthday() + "): ");
+        LocalDate birthday = LocalDate.parse(scanner.nextLine());
+        System.out.print("Enter new sex (male/female) (" + employee.getSex() + "): ");
+        String sex = scanner.nextLine();
+        System.out.print("Enter new citizenId (" + employee.getCitizenId() + ") : ");
+        String citizenId = scanner.nextLine();
+        System.out.print("Enter phone number (" + employee.getPhoneNumber() + ") : ");
+        String phoneNumber = scanner.nextLine();
+        System.out.print("Enter email (" + employee.getEmail() + "): ");
+        String email = scanner.nextLine();
+        System.out.print("Enter degree (" + employee.getDegree() + "): ");
+        Employee.Degree degree = Employee.Degree.valueOf(scanner.nextLine().toUpperCase());
+        System.out.print("Enter job position (" + employee.getJobPosition() + ") : ");
+        Employee.JobPosition position = Employee.JobPosition.valueOf(scanner.nextLine().toUpperCase());
+        System.out.print("Enter salary (" + employee.getSalary() + "): ");
+        double salary = Double.parseDouble(scanner.nextLine());
+        return new Employee(name, birthday, sex, citizenId, phoneNumber, email, employee.getEmployeeId(), degree, position, salary);
+    }
+
+    public static Customer inputNewCustomer() {
+        System.out.print("Enter name : ");
+        String name = scanner.nextLine();
+        System.out.print("Enter birthday (yyyy-mm-dd) : ");
         LocalDate birthday = LocalDate.parse(scanner.nextLine());
         System.out.print("Enter sex (male/female) : ");
         String sex = scanner.nextLine();
@@ -282,55 +422,35 @@ public class View {
         String phoneNumber = scanner.nextLine();
         System.out.print("Enter email : ");
         String email = scanner.nextLine();
-        System.out.print("Enter employeeId : ");
-        String employeeId = scanner.nextLine();
-        System.out.print("Enter degree : ");
-        Employee.Degree degree = Employee.Degree.valueOf(scanner.nextLine().toUpperCase());
-        System.out.print("Enter job position : ");
-        Employee.JobPosition position = Employee.JobPosition.valueOf(scanner.nextLine().toUpperCase());
-        System.out.print("Enter salary : ");
-        double salary = Double.parseDouble(scanner.nextLine());
-        return new Employee(name, birthday, sex, citizenId, phoneNumber, email,employeeId, degree, position,salary);
+        System.out.print("Enter customer ID : ");
+        String customerId = scanner.nextLine();
+        System.out.print("Enter customer class : ");
+        String customerClass = scanner.nextLine();
+        System.out.print("Enter address : ");
+        String address = scanner.nextLine();
+        return new Customer(name, birthday, sex, citizenId, phoneNumber, email, customerId, Customer.CustomerClass.valueOf(customerClass), address);
     }
-    public static Employee inputEmployeeUpdate(Employee employee) {
-        System.out.println("---- Update Employee: "+ employee.getEmployeeId() + " Info ---- ");
-        System.out.print("Enter new name ("+ employee.getName() +") : ");
+
+    public static Customer inputCustomerUpdate(Customer customer) {
+        System.out.println("---- Update Employee: " + customer.getCustomerId() + " Info ---- ");
+        System.out.print("Enter new name (" + customer.getName() + ") : ");
         String name = scanner.nextLine();
-        System.out.print("Enter new birthday (yyyy-mm-dd) ("+ employee.getBirthday() + "): ");
+        System.out.print("Enter new birthday (yyyy-mm-dd) (" + customer.getBirthday() + "): ");
         LocalDate birthday = LocalDate.parse(scanner.nextLine());
-        System.out.print("Enter new sex (male/female) ("+ employee.getSex() + "): ");
+        System.out.print("Enter new sex (male/female) (" + customer.getSex() + "): ");
         String sex = scanner.nextLine();
-        System.out.print("Enter new citizenId ("+ employee.getCitizenId() + ") : ");
+        System.out.print("Enter new citizenId (" + customer.getCitizenId() + ") : ");
         String citizenId = scanner.nextLine();
-        System.out.print("Enter phone number ("+ employee.getPhoneNumber() + ") : ");
+        System.out.print("Enter phone number (" + customer.getPhoneNumber() + ") : ");
         String phoneNumber = scanner.nextLine();
-        System.out.print("Enter email ("+ employee.getEmail() + "): ");
+        System.out.print("Enter email (" + customer.getEmail() + "): ");
         String email = scanner.nextLine();
-        System.out.print("Enter degree ("+ employee.getDegree() + "): ");
-        Employee.Degree degree = Employee.Degree.valueOf(scanner.nextLine().toUpperCase());
-        System.out.print("Enter job position ("+ employee.getJobPosition() + ") : ");
-        Employee.JobPosition position = Employee.JobPosition.valueOf(scanner.nextLine().toUpperCase());
-        System.out.print("Enter salary ("+ employee.getSalary() + "): ");
-        double salary = Double.parseDouble(scanner.nextLine());
-        return new Employee(name, birthday, sex, citizenId, phoneNumber, email,employee.getEmployeeId(), degree, position,salary);
+        System.out.print("Enter Customer class  (" + customer.getCustomerClass() + ") :");
+        Customer.CustomerClass customerClass = Customer.CustomerClass.valueOf(scanner.nextLine().toUpperCase());
+        System.out.print("Enter address (" + customer.getAddress() + "): ");
+        String address = scanner.nextLine();
+        return new Customer(name, birthday, sex, citizenId, phoneNumber, email, customer.getCustomerId(), customerClass, address);
     }
-
-//    public static Person inputPersonInfo() {
-//        System.out.print("Enter name : ");
-//        String name = scanner.nextLine();
-//        System.out.print("Enter birthday (yyyy-mm-dd) : ");
-//        LocalDate birthday = LocalDate.parse(scanner.nextLine());
-//        System.out.print("Enter sex (male/female) : ");
-//        String sex = scanner.nextLine();
-//        System.out.print("Enter citizenId : ");
-//        String citizenId = scanner.nextLine();
-//        System.out.print("Enter phone number : ");
-//        String phoneNumber = scanner.nextLine();
-//        System.out.print("Enter email : ");
-//        String email = scanner.nextLine();
-//        return new Person(name, birthday, sex, citizenId, phoneNumber, email);
-//    }
-
 }
 
 

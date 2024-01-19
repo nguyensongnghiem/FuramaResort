@@ -28,4 +28,12 @@ public class House extends Facility {
     public void setNumberOfStory(int numberOfStory) {
         this.numberOfStory = numberOfStory;
     }
+
+    @Override
+    public String toString() {
+        return "House{" +
+                "roomStandard='" + roomStandard + '\'' +
+                ", numberOfStory=" + numberOfStory +
+                '}' + super.toString();
+    }
 }

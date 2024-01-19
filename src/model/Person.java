@@ -70,15 +70,6 @@ public abstract class Person {
         this.email = email;
     }
 
-//    @Override
-//    public String toString() {
-//        return "Person{" +
-//                "name='" + name + '\'' +
-//                ", birthday='" + birthday + '\'' +
-//                ", sex='" + sex + '\'' +
-//                ", citizenId='" + citizenId + '\'' +
-//                ", phoneNumber='" + phoneNumber + '\'' +
-//                ", email='" + email + '\'' +
-//                '}';
-//    }
+    public abstract  String getId();
+    public abstract String toCsvLine();
 }

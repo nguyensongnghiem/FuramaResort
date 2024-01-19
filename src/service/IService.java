@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public interface IService<T> {
     public ArrayList<T> getAll();
-    public String add(T t);
-    public String delete(String id);
-    public String update(T t);
+    public void add(T t);
+    public void delete(String id);
+    public void update(T t);
     public T get(String id);
-    public boolean isExisted (String id);
+
 
 
 }

@@ -1,8 +1,4 @@
 package model;
-
-
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
@@ -12,15 +8,10 @@ import java.util.Objects;
 public class Employee extends Person {
     public enum JobPosition implements Serializable {
         RECEPTIONIST,
-        @SerializedName("SERVER")
         SERVER,
-        @SerializedName("SPECIALIST")
         SPECIALIST,
-        @SerializedName("SUPERVISOR")
         SUPERVISOR,
-        @SerializedName("MANAGER")
         MANAGER,
-        @SerializedName("DIRECTOR")
         DIRECTOR;
 
         public String getStatus() {
@@ -29,13 +20,9 @@ public class Employee extends Person {
     }
 
     public enum Degree implements Serializable {
-        @SerializedName("INTERMEDIATE")
         INTERMEDIATE,
-        @SerializedName("COLLEGE")
         COLLEGE,
-        @SerializedName("UNIVERSITY")
         UNIVERSITY,
-        @SerializedName("POSTGRADUATE")
         POSTGRADUATE;
 
         public String getStatus() {
@@ -93,6 +80,11 @@ public class Employee extends Person {
     }
 
     @Override
+    public String getId() {
+        return getEmployeeId();
+    }
+
+    @Override
     public String toString() {
         return "Employee{" +
                 "employeeId='" + employeeId + '\'' +
@@ -102,7 +94,7 @@ public class Employee extends Person {
                 ", salary=" + salary +
                 "} ";
     }
-
+@Override
     public String toCsvLine() {
         final String CSV_SEPARATOR = ";";
         StringBuilder str = new StringBuilder();
@@ -128,22 +120,22 @@ public class Employee extends Person {
         return str.toString();
     }
 
-    public static Employee fromCsvLine(String line) {
-        final String CSV_SEPARATOR = ";";
-        String[] array = line.split(CSV_SEPARATOR);
-        Employee e = new Employee();
-        e.setName(array[0]);
-        e.setBirthday(LocalDate.parse(array[1]));
-        e.setSex(array[2]);
-        e.setCitizenId(array[3]);
-        e.setPhoneNumber(array[4]);
-        e.setEmail(array[5]);
-        e.setEmployeeId(array[6]);
-        e.setDegree(Degree.valueOf(array[7]));
-        e.setJobPosition(JobPosition.valueOf(array[8]));
-        e.setSalary(Double.parseDouble(array[9]));
-        return e;
-    }
+//    public static Employee fromCsvLine(String line) {
+//        final String CSV_SEPARATOR = ";";
+//        String[] array = line.split(CSV_SEPARATOR);
+//        Employee e = new Employee();
+//        e.setName(array[0]);
+//        e.setBirthday(LocalDate.parse(array[1]));
+//        e.setSex(array[2]);
+//        e.setCitizenId(array[3]);
+//        e.setPhoneNumber(array[4]);
+//        e.setEmail(array[5]);
+//        e.setEmployeeId(array[6]);
+//        e.setDegree(Degree.valueOf(array[7]));
+//        e.setJobPosition(JobPosition.valueOf(array[8]));
+//        e.setSalary(Double.parseDouble(array[9]));
+//        return e;
+//    }
 
     @Override
     public boolean equals(Object o) {
